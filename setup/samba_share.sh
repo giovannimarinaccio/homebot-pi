@@ -22,8 +22,9 @@ sudo tee -a /etc/samba/smb.conf <<EOT
     writable = yes
     guest ok = yes
     guest only = yes
-    force create mode = 775
-    force directory mode = 775
+    force create mode = 666
+    force directory mode = 0777
+    browseable = yes
 [private]
     comment = Private Folder
     path = /share/private
@@ -42,10 +43,10 @@ sudo groupadd smbshare
 sudo chgrp -R smbshare /share/private/
 sudo chgrp -R smbshare /share/public
 sudo chmod 2770 /share/private/
-sudo chmod 2775 /share/public
+sudo chmod 2777 /share/public
 sudo useradd -M -s /sbin/nologin sambauser
 sudo usermod -aG smbshare sambauser
-sudo smbpasswd -a sambauser
+sudo smbpasswd -a sambauser -w sambapass
 sudo smbpasswd -e sambauser
 
 # restart service
