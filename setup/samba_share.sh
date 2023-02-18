@@ -14,7 +14,7 @@ else
 fi
 sudo mkdir -p /public
 sudo mkdir -p /private
-sudo cat <<EOT >> /etc/samba/smb.conf
+sudo tee -a /etc/samba/smb.conf <<EOT
 [public]
     comment = Public Folder
     path = /public
