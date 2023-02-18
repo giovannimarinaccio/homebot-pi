@@ -39,14 +39,15 @@ EOT
 
 # Create users and groups
 
-sudo groupadd smbshare
+sudo groupadd smbshare || echo "group already exists"
 sudo chgrp -R smbshare /share/private/
 sudo chgrp -R smbshare /share/public
 sudo chmod 2770 /share/private/
 sudo chmod 2777 /share/public
-sudo useradd -M -s /sbin/nologin sambauser
+sudo useradd -M -s /sbin/nologin sambauser || echo "user already exists"
 sudo usermod -aG smbshare sambauser
-sudo smbpasswd -a sambauser -w sambapass
+#sudo smbpasswd -a sambauser
+(echo "sambapass"; echo "sambapass") | smbpasswd -s -a sambauser
 sudo smbpasswd -e sambauser
 
 # restart service
