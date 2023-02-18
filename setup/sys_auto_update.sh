@@ -2,4 +2,5 @@
 
 sudo apt-get update
 sudo apt-get upgrade -y
+sudo apt-get install zip unzip tar git curl wget vi less
 sudo apt-get autoremove
