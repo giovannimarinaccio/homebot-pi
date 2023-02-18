@@ -12,12 +12,13 @@ else
     sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.orig
     echo "/etc/samba/smb.conf.orig created"
 fi
-sudo mkdir -p /public
-sudo mkdir -p /private
+sudo mkdir -p /share/public
+sudo mkdir -p /share/private
 sudo tee -a /etc/samba/smb.conf <<EOT
+
 [public]
     comment = Public Folder
-    path = /public
+    path = /share/public
     writable = yes
     guest ok = yes
     guest only = yes
@@ -25,14 +26,28 @@ sudo tee -a /etc/samba/smb.conf <<EOT
     force directory mode = 775
 [private]
     comment = Private Folder
-    path = /private
+    path = /share/private
     writable = yes
     guest ok = no
     valid users = @smbshare
     force create mode = 770
     force directory mode = 770
     inherit permissions = yes
+
 EOT
 
+# Create users and groups
+
+sudo groupadd smbshare
+sudo chgrp -R smbshare /share/private/
+sudo chgrp -R smbshare /share/public
+sudo chmod 2770 /share/private/
+sudo chmod 2775 /share/public
+sudo useradd -M -s /sbin/nologin sambauser
+sudo usermod -aG smbshare sambauser
+sudo smbpasswd -a sambauser
+sudo smbpasswd -e sambauser
+
 # restart service
+sudo testparm
 sudo systemctl restart nmbd

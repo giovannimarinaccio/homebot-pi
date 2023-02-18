@@ -1,3 +1,5 @@
+https://computingforgeeks.com/how-to-configure-samba-share-on-debian/  
+  
 /etc/samba/smb.conf  
 ```
 #
