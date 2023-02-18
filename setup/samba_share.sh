@@ -47,7 +47,7 @@ sudo chmod 2777 /share/public
 sudo useradd -M -s /sbin/nologin sambauser || echo "user already exists"
 sudo usermod -aG smbshare sambauser
 #sudo smbpasswd -a sambauser
-(echo "sambapass"; echo "sambapass") | sudo smbpasswd -s -a sambauser
+(echo "sambapass"; echo "sambapass") | sudo smbpasswd -s -a "sambauser"
 sudo smbpasswd -e sambauser
 
 # restart service
